@@ -1,4 +1,5 @@
 import Database from 'better-sqlite3';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcryptjs';
@@ -9,6 +10,8 @@ const __dirname = path.dirname(__filename);
 const dbPath = process.env.DATABASE_PATH 
   ? path.resolve(__dirname, '../../', process.env.DATABASE_PATH)
   : path.resolve(__dirname, '../../database/connecthub.db');
+
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 export const db = new Database(dbPath);
 
