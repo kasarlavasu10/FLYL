@@ -1,4 +1,5 @@
-const API_BASE = '/api';
+const API_ORIGIN = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') ?? '';
+const API_BASE = `${API_ORIGIN}/api`;
 
 export function getAuthToken(): string | null {
   // Check sessionStorage first for strict tab isolation during multi-user testing

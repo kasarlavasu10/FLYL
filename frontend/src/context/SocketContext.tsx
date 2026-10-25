@@ -3,6 +3,8 @@ import { io, Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import { soundEffects } from '../utils/audio';
 
+const SOCKET_URL = import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || '/';
+
 interface SocketContextType {
   socket: Socket | null;
   isConnected: boolean;
@@ -31,7 +33,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       return;
     }
 
-    const socketInstance = io('/', {
+    const socketInstance = io(SOCKET_URL, {
       auth: { token },
       reconnection: true,
       reconnectionAttempts: 10,

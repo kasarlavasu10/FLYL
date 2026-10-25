@@ -27,12 +27,15 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+const CLIENT_URLS = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((url) => url.trim())
+  .filter(Boolean);
 
 // Setup Socket.IO with CORS
 const io = new Server(server, {
   cors: {
-    origin: CLIENT_URL,
+    origin: CLIENT_URLS,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -43,7 +46,7 @@ app.set('io', io);
 
 // Middleware
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: CLIENT_URLS,
   credentials: true,
 }));
 
@@ -91,5 +94,5 @@ setupSocketIO(io);
 // Start server
 server.listen(PORT, () => {
   console.log(`ConnectHub Backend Server running on http://localhost:${PORT}`);
-  console.log(`CORS enabled for client origin: ${CLIENT_URL}`);
+  console.log(`CORS enabled for client origins: ${CLIENT_URLS.join(', ')}`);
 });

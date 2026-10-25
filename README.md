@@ -80,6 +80,15 @@ npm run dev
 ```
 *Frontend runs on `http://localhost:5173` with automatic API and Socket.IO proxying to `http://localhost:5000`.*
 
+## ☁️ Netlify Deployment
+
+Netlify hosts the frontend only. The Express API and Socket.IO server must also be deployed to a Node.js host that supports long-running servers and WebSockets.
+
+1. Connect this repository to Netlify. Set the build command to `npm --prefix frontend ci && npm --prefix frontend run build` and the publish directory to `frontend/dist` (these defaults are in `netlify.toml`).
+2. Deploy the `backend` directory to a Node.js host. Set its start command to `npm start` and configure `PORT`, a strong `JWT_SECRET`, and `CLIENT_URL` to your exact Netlify site origin (for example, `https://your-site.netlify.app`, without a trailing slash). For multiple frontend origins, separate them with commas.
+3. In Netlify, add the `VITE_API_URL` environment variable with the backend's public origin (for example, `https://your-api.example.com`, without `/api` at the end), then trigger a new deploy. The frontend uses this URL for API requests and Socket.IO.
+4. Check that `https://your-api.example.com/api/health` returns a JSON health response. User accounts are stored in the backend database, not Netlify.
+
 ---
 
 ## 🔑 Pre-Seeded Demo Accounts
