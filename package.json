@@ -1,0 +1,10 @@
+{
+  "name": "connecthub-monorepo",
+  "version": "1.0.0",
+  "description": "ConnectHub – Social Communication Platform",
+  "scripts": {
+    "start:backend": "cd backend && node src/server.js",
+    "start:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build"
+  }
+}
